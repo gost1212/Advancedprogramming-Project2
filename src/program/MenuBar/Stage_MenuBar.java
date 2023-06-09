@@ -1,9 +1,11 @@
 package program.MenuBar;
 
+import javafx.geometry.Bounds;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
+import static program.Pages.AddPage.setAddPage;;
 
 public class Stage_MenuBar {
     
@@ -26,8 +28,8 @@ public class Stage_MenuBar {
 
     public static void setMenuBare(Pane root){
         add.setOnAction(e->{
-            root.getChildren().clear();
-            root.getChildren().add(menuBar);
+            root.getChildren().remove(1);
+            setAddPage(root);
         });
         search.setOnAction(e->{
 
@@ -39,5 +41,10 @@ public class Stage_MenuBar {
             System.exit(0);
         });
         root.getChildren().addAll(menuBar);
+    }
+
+    public static void getBounds(){
+        Bounds b = menuBar.getBoundsInLocal();
+        System.out.println(b.getHeight());
     }
 }

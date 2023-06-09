@@ -7,10 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.geometry.Rectangle2D;
 import static program.MenuBar.Stage_MenuBar.setMenuBare;
+import static program.MenuBar.Stage_MenuBar.getBounds;
+import static program.Pages.AddPage.setAddPage;
 
 public class MainProgram extends Application{
 
-    private static Pane root = new Pane();
+    private static Pane page = new Pane();
 
     private static Rectangle2D bounds;
     
@@ -32,8 +34,9 @@ public class MainProgram extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        setMenuBare(root);
-        Scene scene = new Scene(root, stageWidth, stageHieght);
+        setMenuBare(page);
+        setAddPage(page);
+        Scene scene = new Scene(page, stageWidth, stageHieght);
         stage.setTitle("test");
         stage.setScene(scene);
         stage.show();
