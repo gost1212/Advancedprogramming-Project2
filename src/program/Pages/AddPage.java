@@ -17,7 +17,6 @@ import static program.SQL.SQLCommands.addEntry;
 public class AddPage{
 
     private static Pane addPage = new Pane();
-    private static double YPos = 25;
 
     private static String[] typeNames = {"Car", "Coolers", "Electronics", "Computers"};
 
@@ -176,7 +175,7 @@ public class AddPage{
 
         addPage.getChildren().addAll(pageHeader, typeLabel, types, modelLabel, model, priceLabel, price,
                                     countLabel, count, dateLabel, date, connectAdd, result);
-        addPage.setLayoutY(YPos);
+        addPage.setLayoutY(25);
     }
 
     public static void setAddPage(Pane root){

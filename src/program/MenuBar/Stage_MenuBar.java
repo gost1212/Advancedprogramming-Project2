@@ -5,7 +5,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
-import static program.Pages.AddPage.setAddPage;;
+import static program.Pages.AddPage.setAddPage;
+import static program.Pages.SearchPage.setSearchPage;
 
 public class Stage_MenuBar {
     
@@ -32,7 +33,8 @@ public class Stage_MenuBar {
             setAddPage(root);
         });
         search.setOnAction(e->{
-
+            root.getChildren().remove(1);
+            setSearchPage(root);
         });
         delete.setOnAction(e->{
 
