@@ -54,8 +54,8 @@ public class SQLCommands {
                                                        select count(*) from `productstbl_saad_abdullah`;
                                                        """;//used to know how many entries did we get.
     
-    public static int searchByTypeModel(String typeModel){
-        return 0;
+    public static ResultSet searchByTypeModel(String typeModel){
+        return null;
     }
 
     private final static String DELETE_ID_STATMENT = """
