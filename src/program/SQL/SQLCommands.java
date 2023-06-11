@@ -35,7 +35,19 @@ public class SQLCommands {
                                           """;//base inseart statment.
 
     public static int addEntry(String type, String model, float price, int count, String deliveryDate){
-        return 0;
+       try {
+            Date date = Date.valueOf(deliveryDate);
+            addStatement.setString(1, type);
+            addStatement.setString(2, model);
+            addStatement.setFloat(3, price);
+            addStatement.setInt(4, count);
+            addStatement.setDate(5, date);
+            addStatement.executeUpdate();
+            return 0;
+        } catch (SQLException e) {
+            System.out.println("Failed to execute query. Error: " + e.getMessage());
+            return -1;
+        }
     }
 
     private final static String SELECT_TYPE_MODEL_STATMENT = """
@@ -62,8 +74,22 @@ public class SQLCommands {
                                                      delete from productstbl_saad_abdullah where id = ?;
                                                      """;
 
-    public static int deleteByID(int id){
-        return 0;
+    public static void deleteByID(int id, Label statusLabel) {
+        try {
+            deleteStatement.setInt(1, id);
+            int deleted = deleteStatement.executeUpdate();
+            if (deleted == 0) {
+                statusLabel.setTextFill(Color.RED);
+                statusLabel.setText("Sorry, there's no entry with the required ID.");
+            } else {
+                statusLabel.setTextFill(Color.GREEN);
+                statusLabel.setText("Deleted rows: " + deleted + " rows");
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to delete. Error: " + e.getMessage());
+            statusLabel.setTextFill(Color.RED);
+            statusLabel.setText("Error: " + e.getMessage());
+        }
     }
 
     public static void closr(){
