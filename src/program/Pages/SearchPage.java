@@ -3,11 +3,15 @@ package program.Pages;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import static program.SQL.SQLCommands.searchByTypeModel;
@@ -100,6 +104,8 @@ public class SearchPage {
 
     private static TextArea typeModel = new TextArea();
 
+    private static Label error = new Label("Error, no data found.");
+
     static{
         SearchPage s = new SearchPage();
 
@@ -143,20 +149,39 @@ public class SearchPage {
         typeModel.setLayoutY(40);
         typeModel.setPrefSize(150, 30);
 
-        searchPane.getChildren().addAll(table, search, typeModel);
+        error.setLayoutX(250);
+        error.setLayoutY(200);
+        error.setPrefSize(450, 100);
+        error.setTextFill(Color.RED);
+        error.setFont(Font.font("Arial", 40));
+        error.setVisible(false);
+
+        searchPane.getChildren().addAll(table, search, typeModel, error);
         searchPane.setLayoutY(25);
     }
 
     public static void printTable(ResultSet set){
+        if(set == null){
+            error.setText("Error, failed to get data.");
+            error.setVisible(true);
+            table.setVisible(false);
+            return;
+        }
         try {
             if(!set.isBeforeFirst()){
-                System.out.println("Sorry, no results found.");
+                error.setText("Error, no data found.");
+                error.setVisible(true);
+                table.setVisible(false);
                 return;
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
+            System.out.println("failed to ckeck if set is empty or not. error: " + e.getMessage());
             e.printStackTrace();
         }
+
+        error.setVisible(false);
+        table.setVisible(true);
 
         resultList.clear();
 
@@ -170,12 +195,21 @@ public class SearchPage {
                      resultList.add(temp);
                 } catch (SQLException e) {
                     // TODO Auto-generated catch block
+                    System.out.println("Reading from set failed. error: " + e.getMessage());
                     e.printStackTrace();
                 }
 
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
+            System.out.println("failed to walk to next tuple. error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            set.close();
+        } catch (SQLException e) {
+            System.out.println("failed to close result set. error: " + e.getMessage());
             e.printStackTrace();
         }
     }

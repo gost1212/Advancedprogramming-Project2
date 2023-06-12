@@ -2,6 +2,8 @@ package program.SQL;
 
 import java.sql.*;
 
+import javafx.scene.control.Label;
+
 public class SQLCommands {
     
     private static final String database_URL = "jdbc:mysql://localhost:3306/productsdb_alghamdi_abubakr";
@@ -35,6 +37,7 @@ public class SQLCommands {
                                           """;//base inseart statment.
 
     public static int addEntry(String type, String model, float price, int count, String deliveryDate){
+        /*
        try {
             Date date = Date.valueOf(deliveryDate);
             addStatement.setString(1, type);
@@ -47,27 +50,70 @@ public class SQLCommands {
         } catch (SQLException e) {
             System.out.println("Failed to execute query. Error: " + e.getMessage());
             return -1;
-        }
+        }*/
+        return -1;
     }
 
-    private final static String SELECT_TYPE_MODEL_STATMENT = """
-                                                       select * from `productstbl_saad_abdullah` where TYPE like ? or Model like ?;
-                                                       """;//base Type Model statment, if given answer.
-
-    private final static String SELECT_TYPE_MODEL_LENGTH_STATMENT = """
-                                                         select count(*) from `productstbl_saad_abdullah` where TYPE like ? or Model like ?;
-                                                         """;//used to know how many entries did we get.
+    private final static String SELECT_TYPE_MODEL_STATMENT = "select * from productstbl_saad_abdullah where TYPE like ? or Model like ?;";//base Type Model statment, if given answer.
 
     private final static String SELECT_ALL_STATMENT = """
                                                        select * from `productstbl_saad_abdullah`;
                                                        """;//base select * statment, in case if input was empty.
-
-    private final static String SELECT_ALL_LENGTH_STATMENT = """
-                                                       select count(*) from `productstbl_saad_abdullah`;
-                                                       """;//used to know how many entries did we get.
     
     public static ResultSet searchByTypeModel(String typeModel){
-        return null;
+        PreparedStatement stmt = null;
+        if(typeModel.length() == 0){
+            try {
+                stmt = conn.prepareStatement(SELECT_ALL_STATMENT);
+            } catch (SQLException e) {
+                System.out.println("Failed to create statment. error: " + e.getMessage());
+                e.printStackTrace();
+                return null;
+            }
+        }else{
+            try {
+                stmt = conn.prepareStatement(SELECT_TYPE_MODEL_STATMENT);
+            } catch (SQLException e) {
+                System.out.println("Failed to create statment. error: " + e.getMessage());
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        if(typeModel.length() == 0){
+            ResultSet result = null;
+
+            try {
+                result = stmt.executeQuery();
+            } catch (SQLException e) {
+                System.out.println("failed to execute query. error: " + e.getMessage());
+                e.printStackTrace();
+                return null;
+            }
+
+            return result;
+        }
+
+        try {
+            stmt.setString(1, typeModel);
+            stmt.setString(2, typeModel);
+        } catch (SQLException e) {
+            System.out.println("failed to set statment parameters. error: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+        ResultSet result = null;
+
+        try {
+            result = stmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("failed to execute query. error: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+        return result;
     }
 
     private final static String DELETE_ID_STATMENT = """
@@ -75,6 +121,7 @@ public class SQLCommands {
                                                      """;
 
     public static void deleteByID(int id, Label statusLabel) {
+        /*
         try {
             deleteStatement.setInt(1, id);
             int deleted = deleteStatement.executeUpdate();
@@ -99,5 +146,6 @@ public class SQLCommands {
             System.out.println("Failed to close connection.");
             e.printStackTrace();
         }
+        */
     }
 }
