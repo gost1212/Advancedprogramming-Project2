@@ -36,23 +36,31 @@ public class SQLCommands {
                                           VALUES (?, ?, ?, ?, ?);
                                           """;//base inseart statment.
 
-    public static int addEntry(String type, String model, float price, int count, String deliveryDate){
-        
-       try {
-            Date date = Date.valueOf(deliveryDate);
-            addStatement.setString(1, type);
-            addStatement.setString(2, model);
-            addStatement.setFloat(3, price);
-            addStatement.setInt(4, count);
-            addStatement.setDate(5, date);
-            addStatement.executeUpdate();
-            return 0;
+   public static int addEntry(String type, String model, float price, int count, String deliveryDate) {
+    PreparedStatement stmt = null;
+    try {
+        stmt = conn.prepareStatement(INSERT_STATMENT);
+        stmt.setString(1, type);
+        stmt.setString(2, model);
+        stmt.setFloat(3, price);
+        stmt.setInt(4, count);
+        stmt.setString(5, deliveryDate);
+        return stmt.executeUpdate();
+    } catch (SQLException e) {
+        System.out.println("Failed to add entry. Error: " + e.getMessage());
+        e.printStackTrace();
+        return 0;
+    } finally {
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
         } catch (SQLException e) {
-            System.out.println("Failed to execute query. Error: " + e.getMessage());
-            return -1;
+            System.out.println("Failed to close statement. Error: " + e.getMessage());
+            e.printStackTrace();
         }
-        return -1;
     }
+}
 
     private final static String SELECT_TYPE_MODEL_STATMENT = "select * from productstbl_saad_abdullah where TYPE like ? or Model like ?;";//base Type Model statment, if given answer.
 
@@ -120,24 +128,27 @@ public class SQLCommands {
                                                      delete from productstbl_saad_abdullah where id = ?;
                                                      """;
 
-    public static void deleteByID(int id, Label statusLabel) {
-        
+public static int deleteByID(int id) {
+    PreparedStatement stmt = null;
+    try {
+        stmt = conn.prepareStatement(DELETE_ID_STATMENT);
+        stmt.setInt(1, id);
+        return stmt.executeUpdate();
+    } catch (SQLException e) {
+        System.out.println("Failed to delete record. Error: " + e.getMessage());
+        e.printStackTrace();
+        return 0;
+    } finally {
         try {
-            deleteStatement.setInt(1, id);
-            int deleted = deleteStatement.executeUpdate();
-            if (deleted == 0) {
-                statusLabel.setTextFill(Color.RED);
-                statusLabel.setText("Sorry, there's no entry with the required ID.");
-            } else {
-                statusLabel.setTextFill(Color.GREEN);
-                statusLabel.setText("Deleted rows: " + deleted + " rows");
+            if (stmt != null) {
+                stmt.close();
             }
         } catch (SQLException e) {
-            System.out.println("Failed to delete. Error: " + e.getMessage());
-            statusLabel.setTextFill(Color.RED);
-            statusLabel.setText("Error: " + e.getMessage());
+            System.out.println("Failed to close statement. Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+}
 
     public static void close(){
         try {
