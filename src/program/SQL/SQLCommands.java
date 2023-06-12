@@ -37,7 +37,7 @@ public class SQLCommands {
                                           """;//base inseart statment.
 
     public static int addEntry(String type, String model, float price, int count, String deliveryDate){
-        /*
+        
        try {
             Date date = Date.valueOf(deliveryDate);
             addStatement.setString(1, type);
@@ -50,7 +50,7 @@ public class SQLCommands {
         } catch (SQLException e) {
             System.out.println("Failed to execute query. Error: " + e.getMessage());
             return -1;
-        }*/
+        }
         return -1;
     }
 
@@ -121,7 +121,7 @@ public class SQLCommands {
                                                      """;
 
     public static void deleteByID(int id, Label statusLabel) {
-        /*
+        
         try {
             deleteStatement.setInt(1, id);
             int deleted = deleteStatement.executeUpdate();
