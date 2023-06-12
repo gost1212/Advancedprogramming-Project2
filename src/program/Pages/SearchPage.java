@@ -2,12 +2,15 @@ package program.Pages;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import static program.SQL.SQLCommands.searchByTypeModel;
 
 public class SearchPage {
 
@@ -93,13 +96,18 @@ public class SearchPage {
     private static TableColumn<Products, String> count = new TableColumn<>("count");
     private static TableColumn<Products, String> date = new TableColumn<>("date");
 
+    private static Button search = new Button("Search");
+
+    private static TextArea typeModel = new TextArea();
+
     static{
         SearchPage s = new SearchPage();
 
         table.setLayoutX(220);
-        table.setLayoutY(50);
+        table.setLayoutY(100);
         table.setPrefSize(500, 300);
         table.setItems(resultList);
+        table.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         ID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         type.setCellValueFactory(new PropertyValueFactory<>("Type"));
@@ -108,13 +116,38 @@ public class SearchPage {
         count.setCellValueFactory(new PropertyValueFactory<>("Count"));
         date.setCellValueFactory(new PropertyValueFactory<>("Date"));
 
+        ID.setResizable(false);
+        type.setResizable(false);
+        model.setResizable(false);
+        price.setResizable(false);
+        count.setResizable(false);
+        date.setResizable(false);
+
+        ID.prefWidthProperty().bind(table.widthProperty().multiply(0.05));
+        type.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+        model.prefWidthProperty().bind(table.widthProperty().multiply(0.26));
+        price.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
+        count.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+        date.prefWidthProperty().bind(table.widthProperty().multiply(0.19));
+
         table.getColumns().addAll(ID, type, model, price, count, date);
 
-        searchPane.getChildren().addAll(table);
+        search.setLayoutX(500);
+        search.setLayoutY(40);
+        search.setPrefSize(100, 30);
+        search.setOnMouseClicked(e->{
+            printTable(searchByTypeModel(typeModel.getText()));
+        });
+
+        typeModel.setLayoutX(300);
+        typeModel.setLayoutY(40);
+        typeModel.setPrefSize(150, 30);
+
+        searchPane.getChildren().addAll(table, search, typeModel);
         searchPane.setLayoutY(25);
     }
 
-    public static void printTable(ResultSet set, int length){
+    public static void printTable(ResultSet set){
         try {
             if(!set.isBeforeFirst()){
                 System.out.println("Sorry, no results found.");
@@ -127,21 +160,24 @@ public class SearchPage {
 
         resultList.clear();
 
-        Products[] list = new Products[length];
+        try {
+            while(set.next()){
+                
+                try {
+                    Products temp = productMake.new Products(set.getInt(1), set.getString(2),
+                     set.getString(3), set.getFloat(4), set.getInt(5), set.getDate(6).toString());
 
-        for(int i = 0; i < length; i++){
-            
-            try {
-                Products temp = productMake.new Products(set.getInt(1), set.getString(2),
-                 set.getString(3), set.getFloat(4), set.getInt(5), set.getDate(6).toString());
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                     resultList.add(temp);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
             }
-
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-
-        resultList.addAll(list);
     }
 
     public static void setSearchPage(Pane root){

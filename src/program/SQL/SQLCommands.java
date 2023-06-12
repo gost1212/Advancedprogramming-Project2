@@ -92,11 +92,11 @@ public class SQLCommands {
         }
     }
 
-    public static void closr(){
+    public static void close(){
         try {
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Failed to clost connection.");
+            System.out.println("Failed to close connection.");
             e.printStackTrace();
         }
     }
