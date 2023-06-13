@@ -89,22 +89,22 @@ public class SearchPage {
 
     private static Pane searchPane = new Pane();
 
-    private static TableView<Products> table = new TableView<>();
+    public static TableView<Products> table = new TableView<>();
 
     private static ObservableList<Products> resultList = FXCollections.observableArrayList();
     
     private static TableColumn<Products, String> ID = new TableColumn<>("ID");
-    private static TableColumn<Products, String> type = new TableColumn<>("type");
-    private static TableColumn<Products, String> model = new TableColumn<>("model");
-    private static TableColumn<Products, String> price = new TableColumn<>("price");
-    private static TableColumn<Products, String> count = new TableColumn<>("count");
-    private static TableColumn<Products, String> date = new TableColumn<>("date");
+    private static TableColumn<Products, String> type = new TableColumn<>("Type");
+    private static TableColumn<Products, String> model = new TableColumn<>("Model");
+    private static TableColumn<Products, String> price = new TableColumn<>("Price");
+    private static TableColumn<Products, String> count = new TableColumn<>("Count");
+    private static TableColumn<Products, String> date = new TableColumn<>("Date");
 
     private static Button search = new Button("Search");
 
     private static TextArea typeModel = new TextArea();
 
-    private static Label error = new Label("Error, no data found.");
+    private static Label error = new Label();
 
     static{
         SearchPage s = new SearchPage();
@@ -122,20 +122,13 @@ public class SearchPage {
         count.setCellValueFactory(new PropertyValueFactory<>("Count"));
         date.setCellValueFactory(new PropertyValueFactory<>("Date"));
 
-        ID.setResizable(false);
-        type.setResizable(false);
-        model.setResizable(false);
-        price.setResizable(false);
-        count.setResizable(false);
-        date.setResizable(false);
-
         ID.prefWidthProperty().bind(table.widthProperty().multiply(0.05));
         type.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
         model.prefWidthProperty().bind(table.widthProperty().multiply(0.26));
         price.prefWidthProperty().bind(table.widthProperty().multiply(0.15));
         count.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
         date.prefWidthProperty().bind(table.widthProperty().multiply(0.19));
-
+        
         table.getColumns().addAll(ID, type, model, price, count, date);
 
         search.setLayoutX(500);
@@ -156,11 +149,11 @@ public class SearchPage {
         error.setFont(Font.font("Arial", 40));
         error.setVisible(false);
 
-        searchPane.getChildren().addAll(table, search, typeModel, error);
+        searchPane.getChildren().addAll(search, typeModel, error);
         searchPane.setLayoutY(25);
     }
 
-    public static void printTable(ResultSet set){
+    protected static void printTable(ResultSet set){
         if(set == null){
             error.setText("Error, failed to get data.");
             error.setVisible(true);
@@ -219,5 +212,11 @@ public class SearchPage {
             root.getChildren().remove(1);
         }
         root.getChildren().add(searchPane);
+        resultList.clear();
+    }
+
+    public static void getTable(){
+        if(!searchPane.getChildren().contains(table))
+            searchPane.getChildren().add(table);
     }
 }

@@ -5,8 +5,11 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
+import program.Pages.SearchPage;
+import program.Pages.DeletePage;
+
 import static program.Pages.AddPage.setAddPage;
-import static program.Pages.SearchPage.setSearchPage;
+import static program.SQL.SQLCommands.close;
 
 public class Stage_MenuBar {
     
@@ -34,12 +37,16 @@ public class Stage_MenuBar {
         });
         search.setOnAction(e->{
             root.getChildren().remove(1);
-            setSearchPage(root);
+            SearchPage.setSearchPage(root);
+            SearchPage.getTable();
         });
         delete.setOnAction(e->{
-
+            root.getChildren().remove(1);
+            DeletePage.setDeletePage(root);
+            DeletePage.getTable();
         });
         exit.setOnAction(e->{
+            close();
             System.exit(0);
         });
         root.getChildren().addAll(menuBar);

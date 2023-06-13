@@ -128,27 +128,27 @@ public class SQLCommands {
                                                      delete from productstbl_saad_abdullah where id = ?;
                                                      """;
 
-public static int deleteByID(int id) {
-    PreparedStatement stmt = null;
-    try {
-        stmt = conn.prepareStatement(DELETE_ID_STATMENT);
-        stmt.setInt(1, id);
-        return stmt.executeUpdate();
-    } catch (SQLException e) {
-        System.out.println("Failed to delete record. Error: " + e.getMessage());
-        e.printStackTrace();
-        return 0;
-    } finally {
+    public static int deleteByID(int id) {
+        PreparedStatement stmt = null;
         try {
-            if (stmt != null) {
-                stmt.close();
-            }
+            stmt = conn.prepareStatement(DELETE_ID_STATMENT);
+            stmt.setInt(1, id);
+            return stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Failed to close statement. Error: " + e.getMessage());
+            System.out.println("Failed to delete record. Error: " + e.getMessage());
             e.printStackTrace();
+            return -1;
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Failed to close statement. Error: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
-}
 
     public static void close(){
         try {
@@ -157,6 +157,6 @@ public static int deleteByID(int id) {
             System.out.println("Failed to close connection.");
             e.printStackTrace();
         }
-        */
     }
+    
 }
