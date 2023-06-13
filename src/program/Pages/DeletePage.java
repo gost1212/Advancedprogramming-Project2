@@ -6,8 +6,6 @@ import static program.SQL.SQLCommands.searchByTypeModel;
 
 import java.util.Optional;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import static program.SQL.SQLCommands.deleteByID;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;

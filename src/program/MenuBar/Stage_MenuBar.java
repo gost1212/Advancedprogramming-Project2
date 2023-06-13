@@ -9,7 +9,6 @@ import program.Pages.DeletePage;
 
 import static program.Pages.AddPage.setAddPage;
 import static program.SQL.SQLCommands.close;
-import static program.MainProgram.credit;
 
 public class Stage_MenuBar {
     

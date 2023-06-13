@@ -107,8 +107,6 @@ public class SearchPage {
     private static Label error = new Label();
 
     static{
-        SearchPage s = new SearchPage();
-
         table.setLayoutX(220);
         table.setLayoutY(100);
         table.setPrefSize(500, 300);
