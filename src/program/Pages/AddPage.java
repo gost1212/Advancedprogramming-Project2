@@ -44,6 +44,9 @@ public class AddPage{
 
     private static final Button connectAdd = new Button("Add");
 
+    private static final Label credit = new Label("Name: Saad Ali Al-Ghamdi   Email:s441003053@st.uqu.edu.sa   ID: 441003053   Section: 3\n"
+                                                        + "Name: Abdullah Omar Suleman Abu-Bakar   Email:s441016265@st.uqu.edu.sa   ID: 441016265   Section: 3");
+
     static{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
