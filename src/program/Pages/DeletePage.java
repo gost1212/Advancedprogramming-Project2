@@ -3,9 +3,17 @@ package program.Pages;
 import static program.Pages.SearchPage.table;
 import static program.Pages.SearchPage.printTable;
 import static program.SQL.SQLCommands.searchByTypeModel;
+
+import java.util.Optional;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import static program.SQL.SQLCommands.deleteByID;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -23,6 +31,9 @@ public class DeletePage {
     private static Label status = new Label();
     private static Label statusResult = new Label();
 
+    private static Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to delete the record?", ButtonType.OK, ButtonType.CANCEL);
+    
+
     static{
         id.setLayoutX(300);
         id.setLayoutY(40);
@@ -37,6 +48,13 @@ public class DeletePage {
         delete.setLayoutY(40);
         delete.setPrefSize(100, 30);
         delete.setOnMouseClicked(e->{
+            Optional<ButtonType> window = alert.showAndWait();
+            if(!(window.isPresent() && window.get() == ButtonType.OK)){
+                statusResult.setText("Cancelled");
+                statusResult.setTextFill(Color.RED);
+                statusResult.setVisible(true);
+                return;
+            }
             int code = -1;
             try{
                 code = deleteByID(Integer.parseInt(id.getText()));
@@ -61,6 +79,9 @@ public class DeletePage {
 
             printTable(searchByTypeModel(""));
         });
+
+        alert.setTitle("Confirm delete");
+        alert.setContentText("This action cannot be undone.");
 
         status.setLayoutX(20);
         status.setLayoutY(43);
