@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.geometry.Rectangle2D;
 import static program.MenuBar.Stage_MenuBar.setMenuBare;
-import static program.MenuBar.Stage_MenuBar.getBounds;
 import static program.Pages.AddPage.setAddPage;
 
 public class MainProgram extends Application{

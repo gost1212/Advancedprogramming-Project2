@@ -1,6 +1,5 @@
 package program.MenuBar;
 
-import javafx.geometry.Bounds;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -50,10 +49,5 @@ public class Stage_MenuBar {
             System.exit(0);
         });
         root.getChildren().addAll(menuBar);
-    }
-
-    public static void getBounds(){
-        Bounds b = menuBar.getBoundsInLocal();
-        System.out.println(b.getHeight());
     }
 }

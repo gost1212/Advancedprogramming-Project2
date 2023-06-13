@@ -49,15 +49,11 @@ public class DeletePage {
                 statusResult.setText("Success");
                 statusResult.setTextFill(Color.GREEN);
                 statusResult.setVisible(true);
-            }
-
-            if(code == 0){//if no record got deleted
+            }else if(code == 0){//if no record got deleted
                 statusResult.setText("No changes occurred.");
                 statusResult.setTextFill(Color.RED);
                 statusResult.setVisible(true);
-            }
-
-            if(code == -1){//if SQL error occurred.
+            }else{//if SQL error occurred.
                 statusResult.setText("Error, failed to delete record.");
                 statusResult.setTextFill(Color.RED);
                 statusResult.setVisible(true);
@@ -66,15 +62,15 @@ public class DeletePage {
             printTable(searchByTypeModel(""));
         });
 
-        status.setLayoutX(140);
+        status.setLayoutX(20);
         status.setLayoutY(43);
         status.setPrefSize(70, 30);
         status.setFont(Font.font("Arial", 16));
         status.setText("Status:");
 
-        statusResult.setLayoutX(190);
+        statusResult.setLayoutX(70);
         statusResult.setLayoutY(43);
-        statusResult.setPrefSize(70, 30);
+        statusResult.setPrefSize(240, 30);
         statusResult.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         statusResult.setVisible(false);
 

@@ -7,6 +7,8 @@ import javafx.util.StringConverter;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+
+import javafx.scene.paint.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.scene.control.Button;
@@ -16,31 +18,34 @@ import static program.SQL.SQLCommands.addEntry;
 
 public class AddPage{
 
-    private static Pane addPage = new Pane();
+    private static final Pane addPage = new Pane();
 
-    private static String[] typeNames = {"Car", "Coolers", "Electronics", "Computers"};
+    private static final String[] typeNames = {"Car", "Coolers", "Electronics", "Computers"};
 
-    private static Label pageHeader = new Label("Add Products");
-    private static Label typeLabel = new Label("Select Type:");
-    private static Label modelLabel = new Label("Enter Model:");
-    private static Label priceLabel = new Label("Enter Price:");
-    private static Label countLabel = new Label("Select Count:");
-    private static Label dateLabel = new Label("Choose Delivery Date:");
-    private static Label result = new Label("");
+    private static final Label pageHeader = new Label("Add Products");
+    private static final Label typeLabel = new Label("Select Type:");
+    private static final Label modelLabel = new Label("Enter Model:");
+    private static final Label priceLabel = new Label("Enter Price:");
+    private static final Label countLabel = new Label("Select Count:");
+    private static final Label dateLabel = new Label("Choose Delivery Date:");
+    private static final Label result = new Label("test");
+    private static final Label typeLabelMessage = new Label("Please select a Type.");
+    private static final Label modelLabelMessage = new Label("Please enter something\nin model.");
+    private static final Label priceLabelMessage = new Label("please enter a\ncorrect number.");
 
-    private static ChoiceBox<String> types = new ChoiceBox<>();
+    private static final ChoiceBox<String> types = new ChoiceBox<>();
 
-    private static TextArea model = new TextArea();
-    private static TextArea price = new TextArea();
+    private static final TextArea model = new TextArea();
+    private static final TextArea price = new TextArea();
 
-    private static Slider count = new Slider(0, 10, 0);
+    private static final Slider count = new Slider(0, 10, 0);
 
-    private static DatePicker date = new DatePicker(LocalDate.now());
+    private static final DatePicker date = new DatePicker(LocalDate.now());
 
-    private static Button connectAdd = new Button("Add");
+    private static final Button connectAdd = new Button("Add");
 
     static{
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
             @Override
@@ -73,26 +78,53 @@ public class AddPage{
         typeLabel.setLayoutY(80);
         typeLabel.setPrefSize(120, 20);
         typeLabel.setFont(Font.font("Arial", 16));
+
+        typeLabelMessage.setLayoutX(50);
+        typeLabelMessage.setLayoutY(160);
+        typeLabelMessage.setPrefSize(240, 20);
+        typeLabelMessage.setTextFill(Color.RED);
+        typeLabelMessage.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        typeLabelMessage.setVisible(false);
         
         model.setLayoutX(180);
         model.setLayoutY(105);
         model.setPrefSize(100, 15);
         model.setFont(Font.font("Arial", 14));
+        model.setOnMouseClicked(e->{
+            result.setVisible(false);
+        });
 
         modelLabel.setLayoutX(180);
         modelLabel.setLayoutY(80);
         modelLabel.setPrefSize(120, 20);
         modelLabel.setFont(Font.font("Arial", 16));
+
+        modelLabelMessage.setLayoutX(180);
+        modelLabelMessage.setLayoutY(160);
+        modelLabelMessage.setPrefSize(220, 80);
+        modelLabelMessage.setTextFill(Color.RED);
+        modelLabelMessage.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        modelLabelMessage.setVisible(false);
         
         price.setLayoutX(310);
         price.setLayoutY(105);
         price.setPrefSize(100, 15);
         price.setFont(Font.font("Arial", 14));
+        price.setOnMouseClicked(e->{
+            result.setVisible(false);
+        });
 
         priceLabel.setLayoutX(310);
         priceLabel.setLayoutY(80);
         priceLabel.setPrefSize(120, 20);
         priceLabel.setFont(Font.font("Arial", 16));
+
+        priceLabelMessage.setLayoutX(310);
+        priceLabelMessage.setLayoutY(160);
+        priceLabelMessage.setPrefSize(240, 60);
+        priceLabelMessage.setTextFill(Color.RED);
+        priceLabelMessage.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        priceLabelMessage.setVisible(false);
         
         count.setLayoutX(440);
         count.setLayoutY(105);
@@ -102,6 +134,9 @@ public class AddPage{
         count.setMajorTickUnit(1);
         count.setMinorTickCount(0);
         count.setBlockIncrement(1);
+        count.setOnMouseClicked(e->{
+            result.setVisible(false);
+        });
 
         countLabel.setLayoutX(440);
         countLabel.setLayoutY(80);
@@ -113,6 +148,9 @@ public class AddPage{
         date.setPrefSize(200, 15);
         date.setConverter(converter);
         date.setEditable(false);
+        date.setOnMouseClicked(e->{
+            result.setVisible(false);
+        });
 
         dateLabel.setLayoutX(670);
         dateLabel.setLayoutY(80);
@@ -122,6 +160,9 @@ public class AddPage{
         types.setLayoutX(50);
         types.setLayoutY(105);
         types.setPrefSize(100, 30);//width, height
+        types.setOnMouseClicked(e->{
+            result.setVisible(false);
+        });
 
         types.getItems().setAll(typeNames);
 
@@ -129,40 +170,47 @@ public class AddPage{
         connectAdd.setLayoutY(250);
         connectAdd.setPrefSize(130, 45);
         connectAdd.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-
-        result.setLayoutX(410);
-        result.setLayoutY(295);
-        result.setPrefSize(130, 45);
-        result.setFont(Font.font("Arial", FontWeight.BOLD, 26));
-
         connectAdd.setOnMousePressed(e->{
             String type = types.getValue();
             if(type == null){
-                System.out.println("Please select a Type.");
+                typeLabelMessage.setVisible(true);
                 return;
+            }else{
+                typeLabelMessage.setVisible(false);
             }
 
             String model = AddPage.model.getText();
             if(model.length() == 0){
-                System.out.println("Please enter something in model.");
+                modelLabelMessage.setVisible(true);
                 return;
+            }else{
+                modelLabelMessage.setVisible(false);
             }
+
             float price;
             try{
                 price = Float.parseFloat(AddPage.price.getText());
             }catch(Exception er){
-                System.out.println("please enter a correct number.");
+                priceLabelMessage.setVisible(true);
                 return;
             }
+            priceLabelMessage.setVisible(false);
+
             int count = (int)AddPage.count.getValue();
-            String[] temp = AddPage.date.getEditor().getText().split("/");
-            String date = temp[0] + "-" + temp[1] + "-" + temp[2];
-            int result = addEntry(type, model, price, count, date);
+            int result = addEntry(type, model, price, count, AddPage.date.getEditor().getText());
             
-            if(result != 0){
-                System.out.println("Failed to add new entry.");
+            if(result == 1){
+                AddPage.result.setText("Success");
+                AddPage.result.setTextFill(Color.GREEN);
+                AddPage.result.setVisible(true);
+            }else if(result == 0){
+                AddPage.result.setText("Nothing Changed");
+                AddPage.result.setTextFill(Color.RED);
+                AddPage.result.setVisible(true);
             }else{
-                System.out.println("Success.");
+                AddPage.result.setText("SQL error");
+                AddPage.result.setTextFill(Color.RED);
+                AddPage.result.setVisible(true);
             }
 
             AddPage.types.setValue("");
@@ -173,8 +221,15 @@ public class AddPage{
             return;
         });
 
+        result.setLayoutX(410);
+        result.setLayoutY(295);
+        result.setPrefSize(130, 45);
+        result.setFont(Font.font("Arial", FontWeight.BOLD, 26));
+        result.setVisible(false);
+
         addPage.getChildren().addAll(pageHeader, typeLabel, types, modelLabel, model, priceLabel, price,
-                                    countLabel, count, dateLabel, date, connectAdd, result);
+                                    countLabel, count, dateLabel, date, connectAdd, result, typeLabelMessage,
+                                    modelLabelMessage, priceLabelMessage);
         addPage.setLayoutY(25);
     }
 
@@ -189,8 +244,4 @@ public class AddPage{
         date.setValue(LocalDate.now());
         root.getChildren().add(addPage);
     }
-
-    //date.getEditor().getText()
-    //can get date by string
-    //format: mm//dd//yyyy
 }

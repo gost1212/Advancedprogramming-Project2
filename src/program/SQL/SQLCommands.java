@@ -2,8 +2,6 @@ package program.SQL;
 
 import java.sql.*;
 
-import javafx.scene.control.Label;
-
 public class SQLCommands {
     
     private static final String database_URL = "jdbc:mysql://localhost:3306/productsdb_alghamdi_abubakr";
@@ -49,7 +47,7 @@ public class SQLCommands {
     } catch (SQLException e) {
         System.out.println("Failed to add entry. Error: " + e.getMessage());
         e.printStackTrace();
-        return 0;
+        return -1;
     } finally {
         try {
             if (stmt != null) {
