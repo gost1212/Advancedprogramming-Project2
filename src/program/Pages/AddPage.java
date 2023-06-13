@@ -94,6 +94,9 @@ public class AddPage{
         model.setFont(Font.font("Arial", 14));
         model.setOnMouseClicked(e->{
             result.setVisible(false);
+            typeLabelMessage.setVisible(false);
+            modelLabelMessage.setVisible(false);
+            priceLabelMessage.setVisible(false);
         });
 
         modelLabel.setLayoutX(180);
@@ -114,6 +117,9 @@ public class AddPage{
         price.setFont(Font.font("Arial", 14));
         price.setOnMouseClicked(e->{
             result.setVisible(false);
+            typeLabelMessage.setVisible(false);
+            modelLabelMessage.setVisible(false);
+            priceLabelMessage.setVisible(false);
         });
 
         priceLabel.setLayoutX(310);
@@ -164,6 +170,9 @@ public class AddPage{
         types.setPrefSize(100, 30);//width, height
         types.setOnMouseClicked(e->{
             result.setVisible(false);
+            typeLabelMessage.setVisible(false);
+            modelLabelMessage.setVisible(false);
+            priceLabelMessage.setVisible(false);
         });
 
         types.getItems().setAll(typeNames);
