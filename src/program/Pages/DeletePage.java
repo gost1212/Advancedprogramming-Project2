@@ -96,13 +96,10 @@ public class DeletePage {
         statusResult.setVisible(false);
 
         deletePane.getChildren().addAll(id, delete, status, statusResult);
-        deletePane.setLayoutY(25);
+        deletePane.setLayoutY(50);
     }
 
     public static void setDeletePage(Pane root){
-        if(root.getChildren().size() == 2){
-            root.getChildren().remove(1);
-        }
 
         statusResult.setVisible(false);
 

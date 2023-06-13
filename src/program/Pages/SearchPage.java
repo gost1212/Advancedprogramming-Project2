@@ -150,7 +150,7 @@ public class SearchPage {
         error.setVisible(false);
 
         searchPane.getChildren().addAll(search, typeModel, error);
-        searchPane.setLayoutY(25);
+        searchPane.setLayoutY(50);
     }
 
     protected static void printTable(ResultSet set){
@@ -208,9 +208,6 @@ public class SearchPage {
     }
 
     public static void setSearchPage(Pane root){
-        if(root.getChildren().size() == 2){
-            root.getChildren().remove(1);
-        }
         root.getChildren().add(searchPane);
         resultList.clear();
     }

@@ -9,6 +9,7 @@ import program.Pages.DeletePage;
 
 import static program.Pages.AddPage.setAddPage;
 import static program.SQL.SQLCommands.close;
+import static program.MainProgram.credit;
 
 public class Stage_MenuBar {
     
@@ -31,16 +32,16 @@ public class Stage_MenuBar {
 
     public static void setMenuBare(Pane root){
         add.setOnAction(e->{
-            root.getChildren().remove(1);
+            root.getChildren().remove(2);
             setAddPage(root);
         });
         search.setOnAction(e->{
-            root.getChildren().remove(1);
+            root.getChildren().remove(2);
             SearchPage.setSearchPage(root);
             SearchPage.getTable();
         });
         delete.setOnAction(e->{
-            root.getChildren().remove(1);
+            root.getChildren().remove(2);
             DeletePage.setDeletePage(root);
             DeletePage.getTable();
         });

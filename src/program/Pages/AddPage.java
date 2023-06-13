@@ -44,8 +44,7 @@ public class AddPage{
 
     private static final Button connectAdd = new Button("Add");
 
-    private static final Label credit = new Label("Name: Saad Ali Al-Ghamdi   Email:s441003053@st.uqu.edu.sa   ID: 441003053   Section: 3\n"
-                                                        + "Name: Abdullah Omar Suleman Abu-Bakar   Email:s441016265@st.uqu.edu.sa   ID: 441016265   Section: 3");
+    
 
     static{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -233,13 +232,10 @@ public class AddPage{
         addPage.getChildren().addAll(pageHeader, typeLabel, types, modelLabel, model, priceLabel, price,
                                     countLabel, count, dateLabel, date, connectAdd, result, typeLabelMessage,
                                     modelLabelMessage, priceLabelMessage);
-        addPage.setLayoutY(25);
+        addPage.setLayoutY(50);
     }
 
     public static void setAddPage(Pane root){
-        if(root.getChildren().size() == 2){
-            root.getChildren().remove(1);
-        }
         types.setValue(null);
         model.setText("");
         price.setText("");

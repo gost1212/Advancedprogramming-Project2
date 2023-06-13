@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.geometry.Rectangle2D;
 import static program.MenuBar.Stage_MenuBar.setMenuBare;
@@ -17,6 +18,9 @@ public class MainProgram extends Application{
     
     public static double stageWidth;
     public static double stageHieght;
+
+    public static final Label credit = new Label("Name: Saad Ali Al-Ghamdi   Email:s441003053@st.uqu.edu.sa   ID: 441003053   Section: 3\n"
+                                                        + "Name: Abdullah Omar Suleman Abu-Bakar   Email:s441016265@st.uqu.edu.sa   ID: 441016265   Section: 3");
 
     static{
         Screen screen = Screen.getPrimary();
@@ -33,11 +37,14 @@ public class MainProgram extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
+        page.getChildren().add(credit);
         setMenuBare(page);
         setAddPage(page);
         Scene scene = new Scene(page, stageWidth, stageHieght);
         stage.setTitle("test");
         stage.setScene(scene);
         stage.show();
+        credit.setLayoutY(30);
+        
     }
 }
